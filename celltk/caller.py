@@ -6,7 +6,7 @@ import logging
 from logging import FileHandler, StreamHandler
 import yaml
 import multiprocessing
-from utils.file_io import make_dirs
+from .utils.file_io import make_dirs
 import sys
 
 
@@ -31,12 +31,12 @@ def multi_call(inputs):
 
 
 def convert(data):
-    if isinstance(data, basestring):
+    if isinstance(data, str):
         return str(data)
     elif isinstance(data, collections.Mapping):
-        return dict(map(convert, data.iteritems()))
+        return dict(list(map(convert, iter(data.items()))))
     elif isinstance(data, collections.Iterable):
-        return type(data)(map(convert, data))
+        return type(data)(list(map(convert, data)))
     else:
         return data
 
@@ -58,11 +58,11 @@ def parse_lazy_syntax(inputs, outputdir):
     elif isinstance(inputs, list):
         if all([exists(i) for i in inputs]):
             return inputs
-        in0 = zip(*[sorted(glob(i)) for i in inputs])
+        in0 = list(zip(*[sorted(glob(i)) for i in inputs]))
         if not in0:
-            in0 = zip(*[sorted(glob(join(i, '*'))) for i in inputs])
+            in0 = list(zip(*[sorted(glob(join(i, '*'))) for i in inputs]))
         if not in0:
-            in0 = zip(*[sorted(extract_path(join(outputdir, i))) for i in inputs])
+            in0 = list(zip(*[sorted(extract_path(join(outputdir, i))) for i in inputs]))
     return in0
 
 
@@ -71,7 +71,7 @@ def prepare_path_list(inputs, outputdir):
         in0 = parse_lazy_syntax(inputs, outputdir)
     except IndexError:
         logger.info("Images \"{0}\" not found. Check your path".format(inputs))
-        print "Images \"{0}\" not found. Check your path".format(inputs)
+        print("Images \"{0}\" not found. Check your path".format(inputs))
         sys.exit(1)
     return in0
 
@@ -98,8 +98,8 @@ def parse_operation(operation):
 
 
 def _retrieve_caller_based_on_function(function):
-    import preprocess, segment, track, postprocess, subdetect, apply
-    import preprocess_operation, segment_operation, track_operation, postprocess_operation, subdetect_operation
+    from . import preprocess, segment, track, postprocess, subdetect, apply
+    from . import preprocess_operation, segment_operation, track_operation, postprocess_operation, subdetect_operation
     ops_modules = [preprocess_operation, segment_operation, track_operation, postprocess_operation, subdetect_operation, apply]
     caller_modules = [preprocess, segment, track, postprocess, subdetect, apply]
 
@@ -119,7 +119,7 @@ def run_operation(output_dir, operation):
     if len(functions) == 1 and functions[0] == 'apply':
         ch_names = operation['ch_names'] if 'ch_names' in operation else images
         obj_names = operation['obj_names'] if 'obj_names' in operation else labels
-        caller(zip(*inputs), zip(*inputs_labels), output, obj_names, ch_names)
+        caller(list(zip(*inputs)), list(zip(*inputs_labels)), output, obj_names, ch_names)
     elif not inputs_labels:
         caller(inputs, output, functions, params=params)
     else:
@@ -183,7 +183,7 @@ def main():
             # single_call(args.input[0])
     if len(args.input) > 1:
         num_cores = args.cores
-        print str(num_cores) + ' started parallel'
+        print(str(num_cores) + ' started parallel')
         pool = multiprocessing.Pool(num_cores, maxtasksperchild=1)
         pool.map(single_call, args.input, chunksize=1)
         pool.close()

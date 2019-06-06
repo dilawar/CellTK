@@ -7,15 +7,15 @@ def main():
 
     home = os.environ["HOME"]
 
-    db_host = raw_input("Database host (e.g., ds123456.mlab.com): ")
-    db_name = raw_input("Database name (e.g., celltk): ")
-    db_username = raw_input("Database username (e.g., fireworks): ")
-    db_password = raw_input("Database password (stored in plaintext, unfortunately): ")
-    db_port = raw_input("Database port (e.g. 99999 from ds123456.mlab.com:99999/celltk): ")
+    db_host = input("Database host (e.g., ds123456.mlab.com): ")
+    db_name = input("Database name (e.g., celltk): ")
+    db_username = input("Database username (e.g., fireworks): ")
+    db_password = input("Database password (stored in plaintext, unfortunately): ")
+    db_port = input("Database port (e.g. 99999 from ds123456.mlab.com:99999/celltk): ")
 
-    celltk_path = raw_input("celltk path (e.g., %s): " % os.path.join(home, "CellTK"))
-    logdir_launchpad = raw_input("Launchpad logging directory (default. %s): " % os.path.join(home, "fw", "logs", "launchpad"))
-    logdir_qadapter = raw_input("Queue adapter logging directory (default. %s): " % os.path.join(home, "fw", "logs", "qadapter"))
+    celltk_path = input("celltk path (e.g., %s): " % os.path.join(home, "CellTK"))
+    logdir_launchpad = input("Launchpad logging directory (default. %s): " % os.path.join(home, "fw", "logs", "launchpad"))
+    logdir_qadapter = input("Queue adapter logging directory (default. %s): " % os.path.join(home, "fw", "logs", "qadapter"))
 
     if logdir_launchpad == "":
         logdir_launchpad = os.path.join(home, "fw", "logs", "launchpad")
@@ -61,8 +61,8 @@ def main():
     h.write(my_qadapter_text)
     h.close()
 
-    print "Created %s with the information provided." % my_launchpad
-    print "Created %s with the information provided." % my_qadapter
+    print("Created %s with the information provided." % my_launchpad)
+    print("Created %s with the information provided." % my_qadapter)
 
 if __name__ == "__main__":
     main()

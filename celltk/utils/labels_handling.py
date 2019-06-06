@@ -1,7 +1,7 @@
-from filters import label
+from .filters import label
 import numpy as np
-from track_utils import prepare_costmat
-from _munkres import munkres
+from .track_utils import prepare_costmat
+from ._munkres import munkres
 from collections import Counter
 
 
@@ -36,7 +36,7 @@ def convert_labels(lb_ref_to, lb_ref_from, lb_convert):
         arr (numpy.ndarray): converted labels for objects with reference set of labels 
 
     """
-    lbmap_to, lbmap_from = zip(*labels_map(lb_ref_to, lb_ref_from))
+    lbmap_to, lbmap_from = list(zip(*labels_map(lb_ref_to, lb_ref_from)))
     arr = np.zeros(lb_convert.shape, dtype=np.uint16)
     lb = lb_convert.copy()
     for n0, n1 in zip(lbmap_to, lbmap_from):
@@ -62,7 +62,7 @@ def convert_labels_lap(lb0, lb1, THRES=10):
 
     cost = np.ones((len(id0), len(id1))) * np.Inf
     for n, c in enumerate(co):
-        for k, v in c.iteritems():
+        for k, v in c.items():
             cost[n, id1.index(k)] = -v
     costmat = prepare_costmat(cost, -THRES, -THRES)
     t = munkres(costmat)

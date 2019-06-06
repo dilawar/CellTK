@@ -1,9 +1,9 @@
-from caller import _retrieve_caller_based_on_function
-from utils.parser import ParamParser, parse_image_files
+from .caller import _retrieve_caller_based_on_function
+from .utils.parser import ParamParser, parse_image_files
 import argparse
-from utils.global_holder import holder
-from utils.file_io import make_dirs, imsave
-from utils.util import imread
+from .utils.global_holder import holder
+from .utils.file_io import make_dirs, imsave
+from .utils.util import imread
 
 
 def main():

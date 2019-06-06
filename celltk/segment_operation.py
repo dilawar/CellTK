@@ -1,9 +1,9 @@
-from __future__ import division
+
 from skimage.measure import label
-from utils.filters import adaptive_thresh
+from .utils.filters import adaptive_thresh
 from skimage.filters import threshold_otsu
-from utils.filters import label_watershed
-from utils.binary_ops import grey_dilation
+from .utils.filters import label_watershed
+from .utils.binary_ops import grey_dilation
 import numpy as np
 from scipy.ndimage import gaussian_laplace, binary_dilation, binary_opening, binary_closing
 np.random.seed(0)

@@ -1,17 +1,17 @@
-from utils.subdetect_utils import dilate_to_cytoring, dilate_to_cytoring_buffer
-from utils.concave_seg import levelset_geo_separete
-from utils.concave_seg import run_concave_cut
-from utils.filters import MultiSnakesCombined
-from utils.concave_seg import levelset_lap
-from utils.filters import label, adaptive_thresh
+from .utils.subdetect_utils import dilate_to_cytoring, dilate_to_cytoring_buffer
+from .utils.concave_seg import levelset_geo_separete
+from .utils.concave_seg import run_concave_cut
+from .utils.filters import MultiSnakesCombined
+from .utils.concave_seg import levelset_lap
+from .utils.filters import label, adaptive_thresh
 from scipy.ndimage.filters import minimum_filter
 import numpy as np
 from scipy.ndimage import morphology
 from skimage.morphology import remove_small_objects
-from utils.labels_handling import convert_labels
-from utils.subdetect_utils import label_high_pass, label_nearest, repair_sal 
-from utils.global_holder import holder
-from segment_operation import constant_thres
+from .utils.labels_handling import convert_labels
+from .utils.subdetect_utils import label_high_pass, label_nearest, repair_sal 
+from .utils.global_holder import holder
+from .segment_operation import constant_thres
 np.random.seed(0)
 
 
@@ -89,8 +89,8 @@ def concave_cut(labels, img, SMALL_RAD=7, LARGE_RAD=14, EDGELEN=6, THRES=180):
 
 
 def watershed_cut(labels, img, MIN_SIGMA=2, MAX_SIGMA=10, THRES=1000):
-    from utils.filters import lap_local_max, sitk_watershed_intensity
-    sigma_list = range(int(MIN_SIGMA), int(MAX_SIGMA))
+    from .utils.filters import lap_local_max, sitk_watershed_intensity
+    sigma_list = list(range(int(MIN_SIGMA), int(MAX_SIGMA)))
     local_maxima = lap_local_max(img, sigma_list, THRES)
     return sitk_watershed_intensity(labels, local_maxima)
 
@@ -110,13 +110,13 @@ def laplacian_levelset(labels, img, NITER=100, CURVE=3, PROP=-1):
 
 
 def voronoi_cut(labels):
-    from utils.subdetect_utils import voronoi_expand
+    from .utils.subdetect_utils import voronoi_expand
     return voronoi_expand(labels)
 
 
 def detect_puncta_voronoi(labels, img, level=7, PERC=50, FILSIZE=1):
-    from utils.subdetect_utils import voronoi_expand
-    from utils.fish_detect import detect_puncta
+    from .utils.subdetect_utils import voronoi_expand
+    from .utils.fish_detect import detect_puncta
     vor = voronoi_expand(labels)
     puncta = detect_puncta(img, level=level, PERC=PERC, FILSIZE=FILSIZE)
     vor[puncta == 0] = 0
@@ -136,7 +136,7 @@ def watershed_divide(labels, regmax=10, min_size=100):
         regmax:
         min_size: objects smaller than this size will not be divided.
     """
-    from utils.subdetect_utils import watershed_labels
+    from .utils.subdetect_utils import watershed_labels
 
     large_labels = remove_small_objects(labels, min_size, connectivity=4)
     labels[large_labels > 0] = 0
@@ -164,7 +164,7 @@ def cytoplasm_levelset(labels, img, niter=20, dt=-0.5, thres=0.5):
 
     """
     from skimage.morphology import closing, disk, remove_small_holes
-    from utils.dlevel_set import dlevel_set
+    from .utils.dlevel_set import dlevel_set
     phi = labels.copy()
     phi[labels == 0] = 1
     phi[labels > 0] = -1

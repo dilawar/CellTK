@@ -7,13 +7,13 @@ import argparse
 import tifffile as tiff
 from os.path import basename, join
 import numpy as np
-import postprocess_operation
-from utils.postprocess_utils import regionprops, LCell # set default parent and next as None
-from utils.file_io import make_dirs, imsave, lbread
-from utils.filters import labels2outlines
+from . import postprocess_operation
+from .utils.postprocess_utils import regionprops, LCell # set default parent and next as None
+from .utils.file_io import make_dirs, imsave, lbread
+from .utils.filters import labels2outlines
 from scipy.ndimage import binary_dilation
-from utils.parser import ParamParser
-from utils.global_holder import holder
+from .utils.parser import ParamParser
+from .utils.global_holder import holder
 import logging
 
 logger = logging.getLogger(__name__)
@@ -89,7 +89,7 @@ def main():
     args = parser.parse_args()
 
     if args.functions is None:
-        print help(postprocess_operation)
+        print(help(postprocess_operation))
         return
 
     params = ParamParser(args.param).run()

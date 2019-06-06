@@ -7,12 +7,12 @@ python celltk/preprocess.py -f gaussian_laplace -i c0/img_00000000*
 
 # from scipy.ndimage import imread
 import argparse
-from utils.file_io import make_dirs, imsave
-from utils.util import imread
-from utils.parser import ParamParser, parse_image_files
+from .utils.file_io import make_dirs, imsave
+from .utils.util import imread
+from .utils.parser import ParamParser, parse_image_files
 import logging
-from utils.global_holder import holder
-import preprocess_operation
+from .utils.global_holder import holder
+from . import preprocess_operation
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ def main():
     args = parser.parse_args()
 
     if args.functions is None:
-        print help(preprocess_operation)
+        print(help(preprocess_operation))
         return
 
     params = ParamParser(args.param).run()

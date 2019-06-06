@@ -5,7 +5,7 @@ import numpy as np
 import logging
 import tempfile
 import shutil
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ class LocalPath(object):
             self.local = False
             temp_dir = tempfile.mkdtemp()
             self.path = join(temp_dir, os.path.basename(path))
-            urllib.urlretrieve(path, self.path)
+            urllib.request.urlretrieve(path, self.path)
 
     def __enter__(self):
         return self.path

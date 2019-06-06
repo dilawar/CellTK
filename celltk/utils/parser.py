@@ -1,6 +1,6 @@
 import re
 import ast
-import __builtin__
+import builtins
 import ast
 import argparse
 
@@ -33,7 +33,7 @@ class ParamParser(object):
 
     def convert2dict(self, param):
         dictargs = dict(e.split('=') for e in param)
-        for key, value in dictargs.iteritems():
+        for key, value in dictargs.items():
             if value[0].isdigit():
                 dictargs[key] = ast.literal_eval(value)
             elif value[0]=='[':
@@ -65,7 +65,7 @@ class ParamParser1(object):
 
     def iter_literal(self, dict_list):
         for dic in dict_list:
-            for key, value in dic.iteritems():
+            for key, value in dic.items():
                 dic[key] = ast.literal_eval(value)
         return dict_list
 
@@ -108,12 +108,12 @@ class ParamParser1(object):
         ps = []
         while True:
             try:
-                p = itr.next()
+                p = next(itr)
                 if "[" in p:
                     temp = []
                     temp.append(p)
                     while True:
-                        p = itr.next()
+                        p = next(itr)
                         temp.append(p)
                         if "]" in p:
                             break
@@ -138,4 +138,4 @@ def parse_image_files(inputs):
         else:
             li.append(element)
     store.append(li)
-    return zip(*store)
+    return list(zip(*store))

@@ -4,7 +4,7 @@ TODO: check if labels is unique.
 """
 import numpy as np
 from collections import OrderedDict
-from utils import sort_labels_and_arr, uniform_list_length
+from .utils import sort_labels_and_arr, uniform_list_length
 
 
 class LabeledArray(np.ndarray):
@@ -114,7 +114,7 @@ class LabeledArray(np.ndarray):
         f = np.load(file_name)
         arr, labels = f['arr'], f['labels']
         la = LabeledArray(arr, labels)
-        for key, value in f.iteritems():
+        for key, value in f.items():
             if not ('arr' == key or 'labels' == key):
                 setattr(la, key, value)
         return la

@@ -1,7 +1,7 @@
-from utils.traces import TracesController
-from utils.pairwise import one_to_one_assignment, one_to_two_assignment, angle_assignment
+from .utils.traces import TracesController
+from .utils.pairwise import one_to_one_assignment, one_to_two_assignment, angle_assignment
 import numpy as np
-from utils.traces import construct_traces_based_on_next, convert_traces_to_storage, label_traces
+from .utils.traces import construct_traces_based_on_next, convert_traces_to_storage, label_traces
 np.random.seed(0)
 
 
@@ -54,7 +54,7 @@ def cut_short_traces(cells, minframe=4):
 
     '''
     if max([i.frame for i in cells]) < minframe:
-        print "minframe set to the maximum"
+        print("minframe set to the maximum")
         minframe = max([i.frame for i in cells])
 
     '''handle division'''

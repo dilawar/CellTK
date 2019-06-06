@@ -232,8 +232,8 @@ def repair_sal(img, pimg, comb, pcomb, label, nuc_prop, nuc_loc, THRESCHANGE=100
             store.append(curr_sig - prev_sig) #store it's change from last frame to this frame in our areaxmean metric 
         
         if judge_bad(curr_sig, prev_sig, THRESCHANGE):  # If it's changed more than our desired threshold [# or diff ratio?] try to assign it to a neighbor
-            print "I JUDGE BAD!"
-            print cell.label 
+            print("I JUDGE BAD!")
+            print(cell.label) 
             for rp in regionprops(skilabel(label == cell.label), img, cache=False): # for each property in regions props 
                 dist = pairwise_distance((rp.centroid,), nuc_loc)[0] # calculate how far bac is from nucleus 
                 for num in range(1, 4): # for 1,2,3,4 
@@ -251,8 +251,8 @@ def repair_sal(img, pimg, comb, pcomb, label, nuc_prop, nuc_loc, THRESCHANGE=100
                     
                     if judge_bad(nei_curr_sig, nei_prev_sig, THRESCHANGE): # if the neighbor also changed by more than the treshold
                         label[rp.coords[:, 0], rp.coords[:, 1]] = neiid # swap out the neighbors 
-                        print "I relabeled something"
-                        print cell.label
+                        print("I relabeled something")
+                        print(cell.label)
                         break
                     else:
                         pass

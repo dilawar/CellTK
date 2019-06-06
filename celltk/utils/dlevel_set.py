@@ -1,6 +1,6 @@
 import numpy as np
-from subdetect_utils import calc_mask_exclude_overlap
-from filters import label
+from .subdetect_utils import calc_mask_exclude_overlap
+from .filters import label
 
 
 def grad(x):

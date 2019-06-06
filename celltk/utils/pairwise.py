@@ -1,4 +1,4 @@
-from __future__ import division
+
 import numpy as np
 from scipy.spatial.distance import pdist
 
@@ -30,7 +30,7 @@ def angle_assignment(binary_cost, dau_pts, par_pts, dot_thres, dist_thres, mass_
     '''
 
     #iterate over each parent
-    for x in xrange(0, binary_cost.shape[0]):
+    for x in range(0, binary_cost.shape[0]):
 
         #select the possible candidate daughters from the binary matrix and get x,y coordinates
         bin_row = binary_cost[x, :]
@@ -87,15 +87,15 @@ def pairwise_dot_distance(par_xy, dau_xy):
     
     #calculate all normalized dot products of those vectors
     dot = np.ones((len(vectors), len(vectors)))
-    for i in xrange(0, len(vectors)):
-        for j in xrange(i, len(vectors)):
+    for i in range(0, len(vectors)):
+        for j in range(i, len(vectors)):
             if not i == j:
                 dot[i, j] = np.dot(vectors[i], vectors[j]) / (np.linalg.norm(vectors[i]) * np.linalg.norm(vectors[j]))
 
     #find line between daughter cells, find closest point from parent cell on that line, determine fractional distance
     distance_error = np.ones((len(dau_xy), len(dau_xy)))
-    for i in xrange(0, len(dau_xy)):
-        for j in xrange(i, len(dau_xy)):
+    for i in range(0, len(dau_xy)):
+        for j in range(i, len(dau_xy)):
             if not i == j:
                 d1 = dau_xy[i]
                 d2 = dau_xy[j]

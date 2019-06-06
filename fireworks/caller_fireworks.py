@@ -17,12 +17,12 @@ import collections
 
 
 def convert(data):
-    if isinstance(data, basestring):
+    if isinstance(data, str):
         return str(data)
     elif isinstance(data, collections.Mapping):
-        return dict(map(convert, data.iteritems()))
+        return dict(list(map(convert, iter(data.items()))))
     elif isinstance(data, collections.Iterable):
-        return type(data)(map(convert, data))
+        return type(data)(list(map(convert, data)))
     else:
         return data
 
@@ -33,7 +33,7 @@ class clustercelltk(FireTaskBase):
     required_params = ["contents"]
 
     def run_task(self, fw_spec):
-        print "Running CellTK with input {0}".format(self["contents"])
+        print("Running CellTK with input {0}".format(self["contents"]))
         parallel_call(self["contents"])
 
 

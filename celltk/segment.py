@@ -8,18 +8,18 @@ import argparse
 import tifffile as tiff
 from os.path import basename, join
 import numpy as np
-import segment_operation
+from . import segment_operation
 from skimage.segmentation import clear_border
-from utils.filters import gray_fill_holes
+from .utils.filters import gray_fill_holes
 from skimage.morphology import remove_small_objects
-from utils.filters import label
+from .utils.filters import label
 from skimage.morphology import opening
-from utils.util import imread
-from utils.file_io import make_dirs, imsave
-from utils.parser import ParamParser, parse_image_files
-from utils.global_holder import holder
+from .utils.util import imread
+from .utils.file_io import make_dirs, imsave
+from .utils.parser import ParamParser, parse_image_files
+from .utils.global_holder import holder
 import logging
-from _setting import RUN_CLEAN, RADIUS, OPEN
+from ._setting import RUN_CLEAN, RADIUS, OPEN
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ def main():
 
     params = ParamParser(args.param).run()
     if args.functions is None:
-        print help(segment_operation)
+        print(help(segment_operation))
         return
 
     holder.args = args

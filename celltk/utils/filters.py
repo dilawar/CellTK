@@ -1,4 +1,4 @@
-from __future__ import division
+
 import numpy as np
 from scipy.ndimage import distance_transform_edt
 from skimage.measure import regionprops
@@ -11,7 +11,7 @@ from scipy.ndimage.filters import maximum_filter
 from skimage.draw import line
 from scipy.ndimage.filters import gaussian_filter
 import SimpleITK as sitk
-from morphsnakes import MorphACWE, curvop
+from .morphsnakes import MorphACWE, curvop
 from mahotas.segmentation import gvoronoi
 from skimage.morphology import thin
 import pandas as pd
@@ -175,7 +175,7 @@ class MultiSnakes(MorphACWE):
         self._u = res
 
     def return_labels(self):
-        from labels_handling import convert_labels_lap
+        from .labels_handling import convert_labels_lap
         if self._keep:
             lb = convert_labels_lap(self._prev, label(self.levelset, connectivity=1))
             self._prev = lb.copy()

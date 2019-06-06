@@ -1,8 +1,8 @@
 import numpy as np
 from scipy.spatial.distance import cdist
 import SimpleITK as sitk
-from postprocess_utils import regionprops
-from filters import label
+from .postprocess_utils import regionprops
+from .filters import label
 import cv2
 from skimage.draw import line
 from scipy.ndimage import binary_erosion
@@ -10,7 +10,7 @@ from mahotas.segmentation import gvoronoi
 from skimage.segmentation import find_boundaries
 from skimage.morphology import thin
 from functools import partial
-from track_utils import calc_massdiff, find_one_to_one_assign
+from .track_utils import calc_massdiff, find_one_to_one_assign
 from scipy.spatial.distance import cdist
 
 
@@ -107,7 +107,7 @@ def levelset_geo(img, labels, advec=3, propagation=0.75, niter=100):
 
 def extract_large(labels, AREA=700):
     rps = regionprops(labels)
-    retain = filter(lambda x:x.area>AREA, rps)
+    retain = [x for x in rps if x.area>AREA]
     badlabels = np.zeros(labels.shape, np.uint16)
     for r in retain:
         badlabels[labels==r.label] = r.label
@@ -116,7 +116,7 @@ def extract_large(labels, AREA=700):
 
 def extract_small(labels, AREA=200):
     rps = regionprops(labels)
-    retain = filter(lambda x:x.area<AREA, rps)
+    retain = [x for x in rps if x.area<AREA]
     badlabels = np.zeros(labels.shape, np.uint16)
     for r in retain:
         badlabels[labels==r.label] = r.label
@@ -315,7 +315,7 @@ class CellCutter(object):
         dist = cdist(coords, coords)
 
         boolarr = np.triu(np.ones(dist.shape, bool), 1)
-        a1 = np.tile(range(len(coords)), len(coords)).reshape((len(coords), len(coords)))
+        a1 = np.tile(list(range(len(coords))), len(coords)).reshape((len(coords), len(coords)))
         x1, x2 = a1[boolarr], a1.T[boolarr]
 
         sortorder = np.argsort(dist[boolarr])
@@ -338,7 +338,7 @@ class CellCutter(object):
         return new_coords_set
 
     def filter_candidates(self, candidates):
-        candidates = filter(lambda x: x.area > np.pi * self.small_rad ** 2, candidates)
+        candidates = [x for x in candidates if x.area > np.pi * self.small_rad ** 2]
         if len(candidates):
             mindist = min([c.line_total for c in candidates])
             index = [n for n, c in enumerate(candidates) if c.line_total == mindist][0]

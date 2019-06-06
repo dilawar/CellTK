@@ -1,1 +1,1 @@
-from labeledarray.labeledarray import LabeledArray
+from .labeledarray.labeledarray import LabeledArray

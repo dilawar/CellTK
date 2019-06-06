@@ -3,18 +3,18 @@ python celltk/tracking.py -f nearest_neighbor -i c0/img_00000000* -l c1/img_0000
 0*  -p DISPLACEMENT=10 MASSTHRES=0.2
 """
 
-from utils.util import imread
+from .utils.util import imread
 import argparse
 import tifffile as tiff
 from os.path import basename, join
 import numpy as np
 import os
-import track_operation
-from utils.file_io import make_dirs, imsave, lbread
-from utils.parser import ParamParser
-from utils.global_holder import holder
+from . import track_operation
+from .utils.file_io import make_dirs, imsave, lbread
+from .utils.parser import ParamParser
+from .utils.global_holder import holder
 import logging
-from _setting import FRAME_REVTRACK
+from ._setting import FRAME_REVTRACK
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ def main():
     args = parser.parse_args()
 
     if args.functions is None:
-        print help(track_operation)
+        print(help(track_operation))
         return
 
     params = ParamParser(args.param).run()

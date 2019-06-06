@@ -2,7 +2,7 @@ import numpy as np
 import pywt
 from skimage.transform import resize
 from skimage.measure import label
-from filters import adaptive_thresh
+from .filters import adaptive_thresh
 
 
 def enhance_puncta(img, level=7):

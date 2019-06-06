@@ -14,8 +14,8 @@ def relative_position(points):
     ypoints = points_flat[0::2]
     max_xp = min(xpoints)
     max_yp = min(ypoints)
-    rel_xpoints = map(lambda l: l - max_xp, xpoints)
-    rel_ypoints = map(lambda l: l - max_yp, ypoints)
+    rel_xpoints = [l - max_xp for l in xpoints]
+    rel_ypoints = [l - max_yp for l in ypoints]
     rel_points = (rel_xpoints, rel_ypoints)
     return rel_points
 

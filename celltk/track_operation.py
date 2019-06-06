@@ -6,19 +6,19 @@ Turn labels0 into negative.
 """
 
 
-from utils.filters import label
-from utils.postprocess_utils import regionprops
+from .utils.filters import label
+from .utils.postprocess_utils import regionprops
 from scipy.spatial.distance import cdist
-from utils.track_utils import calc_massdiff, find_one_to_one_assign
-from utils.global_holder import holder  # holder is used to store parameters that needs to be called many times
+from .utils.track_utils import calc_massdiff, find_one_to_one_assign
+from .utils.global_holder import holder  # holder is used to store parameters that needs to be called many times
 import numpy as np
-from utils.track_utils import call_lap, pick_closer_cost
-from utils.filters import labels2outlines
-from utils.concave_seg import wshed_raw, CellCutter
-from utils.track_utils import _find_best_neck_cut, _update_labels_neck_cut
-from utils.global_holder import holder
+from .utils.track_utils import call_lap, pick_closer_cost
+from .utils.filters import labels2outlines
+from .utils.concave_seg import wshed_raw, CellCutter
+from .utils.track_utils import _find_best_neck_cut, _update_labels_neck_cut
+from .utils.global_holder import holder
 from scipy.ndimage import gaussian_laplace, binary_dilation
-from utils.binary_ops import grey_dilation
+from .utils.binary_ops import grey_dilation
 import logging
 
 logger = logging.getLogger(__name__)
@@ -225,8 +225,8 @@ def watershed_distance(img0, img1, labels0, labels1, DISPLACEMENT=10,
         labels1 = -labels.copy()
         rps0 = regionprops(labels0, img0)
 
-        from subdetect_operation import watershed_divide  # DO NOT MOVE IT
-        from utils.track_utils import _find_match
+        from .subdetect_operation import watershed_divide  # DO NOT MOVE IT
+        from .utils.track_utils import _find_match
         untracked_labels = labels1.copy()
         untracked_labels[untracked_labels < 0] = 0
         wshed_labels = watershed_divide(untracked_labels, regmax=REGMAX, min_size=MIN_SIZE)

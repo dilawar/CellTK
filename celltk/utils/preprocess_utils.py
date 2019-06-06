@@ -2,8 +2,8 @@ import numpy as np
 from skimage.transform import resize
 from pywt import WaveletPacket2D
 import SimpleITK as sitk
-from wavelet_bgr import WaveletBGR
-from rolling_ball import PyRollingBall
+from .wavelet_bgr import WaveletBGR
+from .rolling_ball import PyRollingBall
 from functools import partial
 from skimage.transform import resize
 from scipy.ndimage.filters import gaussian_filter

@@ -11,7 +11,7 @@ class Holder(object):
     c = counter()
 
     def count(self):
-        return self.c.next()
+        return next(self.c)
 
 # global holder
 holder = Holder()

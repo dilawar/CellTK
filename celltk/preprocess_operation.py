@@ -1,21 +1,21 @@
-from __future__ import division
-from utils.filters import calc_lapgauss
+
+from .utils.filters import calc_lapgauss
 import SimpleITK as sitk
 import numpy as np
-from utils.preprocess_utils import homogenize_intensity_n4
-from utils.preprocess_utils import convert_positive, estimate_background_prc
-from utils.preprocess_utils import resize_img
-from utils.preprocess_utils import histogram_matching, wavelet_subtraction_hazen, rolling_ball_subtraction_hazen
-from utils.filters import adaptive_thresh
-from utils.cp_functions import align_cross_correlation, align_mutual_information
-from utils.util import imread
+from .utils.preprocess_utils import homogenize_intensity_n4
+from .utils.preprocess_utils import convert_positive, estimate_background_prc
+from .utils.preprocess_utils import resize_img
+from .utils.preprocess_utils import histogram_matching, wavelet_subtraction_hazen, rolling_ball_subtraction_hazen
+from .utils.filters import adaptive_thresh
+from .utils.cp_functions import align_cross_correlation, align_mutual_information
+from .utils.util import imread
 from glob import glob
-from utils.filters import interpolate_nan
+from .utils.filters import interpolate_nan
 from scipy.optimize import minimize
 import logging
-from utils.global_holder import holder
-from utils.mi_align import calc_jitters_multiple, calc_crop_coordinates
-from utils.shading_correction import retrieve_ff_ref
+from .utils.global_holder import holder
+from .utils.mi_align import calc_jitters_multiple, calc_crop_coordinates
+from .utils.shading_correction import retrieve_ff_ref
 from scipy.ndimage.filters import gaussian_filter
 
 logger = logging.getLogger(__name__)
@@ -266,7 +266,7 @@ def np_arithmetic(img, npfunc='max'):
 
 
 def stitch_images(img, POINTS=[(0,0),(0,0),(0,0),(0,0)]):
-    from utils.stitch_utils import relative_position, stitching
+    from .utils.stitch_utils import relative_position, stitching
     '''
     Stitch images with 'Fiji/Stitch_image_Grid_Sequence' results.
     '''
@@ -288,9 +288,9 @@ def deep_unet(img, weight_path, region=1):
         pimg (numpy.ndarray): probability map image 
         
     """
-    from utils.unet_predict import predict
-    from utils.file_io import LocalPath
-    from utils.global_holder import holder
+    from .utils.unet_predict import predict
+    from .utils.file_io import LocalPath
+    from .utils.global_holder import holder
     with LocalPath(weight_path) as wpath:
         pimg = predict(holder.path, wpath)
     pimg = np.moveaxis(pimg, 0, -1)

@@ -1,12 +1,12 @@
-from __future__ import division
+
 import numpy as np
 import json
 import tempfile
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import shutil
 from os.path import join
 import os
-from util import imread
+from .util import imread
 #from utils.util import imread
 from glob import glob
 import tifffile as tiff
@@ -19,9 +19,9 @@ def retrieve_ff_ref(refpath, darkrefpath):
     """
     try:
         temp_dir = tempfile.mkdtemp()
-        urllib.urlretrieve(refpath, join(temp_dir, 'ref.npz'))
+        urllib.request.urlretrieve(refpath, join(temp_dir, 'ref.npz'))
         ref = np.load(join(temp_dir, 'ref.npz'))
-        urllib.urlretrieve(darkrefpath, join(temp_dir, 'darkref.npz'))
+        urllib.request.urlretrieve(darkrefpath, join(temp_dir, 'darkref.npz'))
         darkref = np.load(join(temp_dir, 'darkref.npz'))
     finally:
         shutil.rmtree(temp_dir)  # delete directory
@@ -60,6 +60,6 @@ def shading_correction_folder(inputfolder, outputfolder, binning=3, magnificatio
                     try:
                         img = correct_shade(imread(path), ref, darkref, ch)
                     except:
-                        print "ch might not exist as a reference."
+                        print("ch might not exist as a reference.")
                         img = imread(path)
                     tiff.imsave(join(outputdir, os.path.basename(path)), img.astype(np.float32))

@@ -4,14 +4,14 @@ Some functions are adapted/modified from cellprofiler.
 
 
 """
-from __future__ import division
+
 import scipy.ndimage as scind
 import numpy as np
 import scipy
 from skimage.measure import block_reduce
 from scipy.ndimage.filters import gaussian_laplace
 from skimage.exposure import equalize_adapthist, equalize_hist
-from imreg import translation
+from .imreg import translation
 from scipy.ndimage import imread
 # from numba.decorators import jit
 from centrosome.filter import stretch
@@ -59,8 +59,8 @@ class BaseMutualInfoAligner(object):
 
     def search_all_mi(self, pp1, pp2, mask1, mask2):
         best = 0
-        i_list = range(-pp1.shape[0], pp1.shape[0])
-        j_list = range(-pp1.shape[1], pp1.shape[1])
+        i_list = list(range(-pp1.shape[0], pp1.shape[0]))
+        j_list = list(range(-pp1.shape[1], pp1.shape[1]))
         arr = np.zeros((len(i_list), len(j_list)))
         for n1, new_i in enumerate(i_list):
             for n2, new_j in enumerate(j_list):
@@ -89,8 +89,8 @@ class BaseMutualInfoAlignerLog(BaseMutualInfoAligner):
     def search_all_mi(self, pp1, pp2, mask1, mask2):
         CUT = 10
         best = 0
-        i_list = range(-pp1.shape[0]+CUT, pp1.shape[0]-CUT)
-        j_list = range(-pp1.shape[1]+CUT, pp1.shape[1]-CUT)
+        i_list = list(range(-pp1.shape[0]+CUT, pp1.shape[0]-CUT))
+        j_list = list(range(-pp1.shape[1]+CUT, pp1.shape[1]-CUT))
         arr = np.zeros((len(i_list), len(j_list)))
         for n1, new_i in enumerate(i_list):
             for n2, new_j in enumerate(j_list):
@@ -477,8 +477,8 @@ class MinimalMutualInfoAligner(object):
     
     
     def search_all_mi(self, pp1, pp2, mask1, mask2):
-        i_list = range(-pp1.shape[0], pp1.shape[0])
-        j_list = range(-pp1.shape[1], pp1.shape[1])
+        i_list = list(range(-pp1.shape[0], pp1.shape[0]))
+        j_list = list(range(-pp1.shape[1], pp1.shape[1]))
         arr = np.zeros((len(i_list), len(j_list)))
         for n1, new_i in enumerate(i_list):
             for n2, new_j in enumerate(j_list):
@@ -494,9 +494,9 @@ class MinimalMutualInfoAligner(object):
     def execute(self):
         self.preprocessing()
         self.initial_mi()
-        self.ini_j_all, self.ini_i_all = zip(*list(set(zip(self.ini_i, self.ini_j))))
+        self.ini_j_all, self.ini_i_all = list(zip(*list(set(zip(self.ini_i, self.ini_j)))))
         if len(self.ini_j_all) == len(self.ini_i):
-            print "Calculation based on small images may be leading to instablility. Choose a larger MAXIMUM or small DOWNSAMPLE."
+            print("Calculation based on small images may be leading to instablility. Choose a larger MAXIMUM or small DOWNSAMPLE.")
         store, mistore = [], []
         for self.ini_j, self.ini_i in zip(self.ini_j_all, self.ini_i_all):
             self.mi_last()

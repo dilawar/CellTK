@@ -2,16 +2,16 @@
 python celltk/subdetect.py -l c3/img_00000000* -f ring_dilation -o c4 -p MARGIN=0
 """
 
-from utils.util import imread
+from .utils.util import imread
 import tifffile as tiff
 import argparse
 from os.path import basename, join
 import numpy as np
-import subdetect_operation
-from itertools import izip_longest
-from utils.file_io import make_dirs, imsave, lbread
-from utils.parser import ParamParser
-from utils.global_holder import holder
+from . import subdetect_operation
+from itertools import zip_longest
+from .utils.file_io import make_dirs, imsave, lbread
+from .utils.parser import ParamParser
+from .utils.global_holder import holder
 import logging
 
 logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ def caller(inputs, inputs_labels, output, functions, params):
 
     logger.info("Functions {0} for {1} images.".format(functions, len(inputs)))
     img = None
-    for holder.frame, (path, pathl) in enumerate(izip_longest(inputs, inputs_labels)):
+    for holder.frame, (path, pathl) in enumerate(zip_longest(inputs, inputs_labels)):
         if path is not None:
             img = imread(path)
         labels0 = lbread(pathl)
@@ -47,7 +47,7 @@ def main():
     args = parser.parse_args()
 
     if args.functions is None:
-        print help(subdetect_operation)
+        print(help(subdetect_operation))
         return
 
     params = ParamParser(args.param).run()

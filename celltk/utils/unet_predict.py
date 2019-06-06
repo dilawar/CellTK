@@ -1,12 +1,12 @@
-from __future__ import division
+
 import os
 import numpy as np
 from os.path import join, basename, splitext
-from tfutils import imread
-from tfutils import make_outputdir, normalize
-from tfutils import pad_image, normalize_predictions
+from .tfutils import imread
+from .tfutils import make_outputdir, normalize
+from .tfutils import pad_image, normalize_predictions
 import tifffile as tiff
-import _model_builder
+from . import _model_builder
 
 
 def predict(img_path, weight_path):

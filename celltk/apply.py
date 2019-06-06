@@ -5,18 +5,18 @@ TODO:
 need to deal with parent id
 """
 
-from utils.util import imread
+from .utils.util import imread
 import argparse
 import tifffile as tiff
 from os.path import basename, join, dirname, abspath
 import numpy as np
-from utils.postprocess_utils import regionprops, Cell # set default parent and next as None
+from .utils.postprocess_utils import regionprops, Cell # set default parent and next as None
 try:
-    from labeledarray import LabeledArray
+    from .labeledarray import LabeledArray
 except:
     from celltk.labeledarray import LabeledArray
 from os.path import exists
-from utils.file_io import make_dirs, lbread
+from .utils.file_io import make_dirs, lbread
 import pandas as pd
 import logging
 from scipy.ndimage.morphology import binary_fill_holes
@@ -24,7 +24,7 @@ from scipy.ndimage.morphology import binary_dilation
 import warnings
 warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
 warnings.filterwarnings('ignore', category=pd.io.pytables.PerformanceWarning)
-from _setting import PROP_SAVE, MAX_NUMCELL, FILE_NAME
+from ._setting import PROP_SAVE, MAX_NUMCELL, FILE_NAME
 
 # We should be able to provide this as configuration when booting CellTK 
 #PROP_SAVE = ['area', 'cell_id','max_intensity','mean_intensity', 'median_intensity','total_intensity', 'x', 'y'] #'convex_area', 'cv_intensity',
@@ -136,7 +136,7 @@ def caller(inputs_list, inputs_labels_list, output, primary, secondary):
                 marr[pn] = arr[i]
             sarr = np.swapaxes(marr, 0, 2)
             narr = sarr.reshape((sarr.shape[0]*sarr.shape[1], sarr.shape[2]), order='F')
-            index = pd.MultiIndex.from_product([obj, ch, PROP_SAVE, range(arr.shape[-1])], names=['object', 'ch', 'prop', 'frame'])
+            index = pd.MultiIndex.from_product([obj, ch, PROP_SAVE, list(range(arr.shape[-1]))], names=['object', 'ch', 'prop', 'frame'])
             df = pd.DataFrame(narr, index=index, columns=cellids)
 
             if exists(join(output, FILE_NAME+'.csv')):

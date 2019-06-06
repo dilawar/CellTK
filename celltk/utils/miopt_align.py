@@ -1,6 +1,6 @@
-from __future__ import print_function
+
 import SimpleITK as sitk
-from _mutinfo import mutual_information
+from ._mutinfo import mutual_information
 import numpy as np
 
 
